@@ -1,17 +1,24 @@
 def mas_de_la_mitad(arr):
-    candidato = encontrar_candidato(arr)
-    return verificar_candidato(arr, candidato)
+    cand = _mas_de_la_mitad(arr)
+    return cand != None
 
-def encontrar_candidato(arr):
-    candidato, conteo = None, 0
-    
-    for num in arr:
-        if conteo == 0:
-            candidato = num
-        conteo += (1 if num == candidato else -1)
-    
-    return candidato
+def _mas_de_la_mitad(arr):
 
-def verificar_candidato(arr, candidato):
-    conteo = sum(1 for num in arr if num == candidato)
-    return conteo > len(arr) // 2
+    if len(arr) == 1:
+        return arr[0]
+    if len(arr) == 0:
+        return None
+    aux = []
+
+    for i in range(0, len(arr)-1, 2):
+        if arr[i] == arr[i+1]:
+            aux.append(arr[i])
+
+    candidato = _mas_de_la_mitad(aux)
+
+    if candidato and arr.count(candidato) > len(arr)//2:
+        return candidato
+    if len(arr)%2 != 0 and arr.count(arr[-1]) > len(arr)//2:
+        return arr[-1]
+    else:
+        return None
