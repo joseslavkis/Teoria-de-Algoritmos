@@ -36,7 +36,8 @@ Set (DS) a esta altura sino lo sabes sos un poco zapallo amigo).
 Debemos adaptar los vértices tal que obtengamos un conjunto A y conjuntos B_i de un grafo. Además este debe resolver DS.
 En primer lugar se me ocurre que A sean todos los vértices del grafo G al cual le queremos hallar el DS. 
 Ahora la parte mas dificil del problema, ¿qué son los B's?. 
-El problema de DS se basa en dominar vértices adyacentes y los B's de HS son dominados por alguna componente de C...(te la dejé picando, rematala).
+El problema de DS se basa en dominar vértices adyacentes y los B's de HS son dominados por alguna componente de C...
+(Aca es cuando dejas de leer la resolución y te pones a pensar por tu cuenta).
 Basicamente la solución que propongo es que por cada vértice tener un B_vi que estará formado por los adyacentes de vi. 
 De esta manera nos aseguramos que cada vértice v pertenecerá a la solución C (que será el DS) o será adyacente a alguno perteneciente a C.
 

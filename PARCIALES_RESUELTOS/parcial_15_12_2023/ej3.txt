@@ -12,7 +12,7 @@ cumplir exactamente con dicho monto dando la mínima cantidad de figuritas para 
 ¿Cuál problema de Carlitos sería el más difícil, el problema de las figuritas o el de su agencia publicitaria? Realizar una
 reducción polinomial de uno al otro para definir esto (redefinir como problemas de decisión como primer paso).
 
-Ejercicio de la guía de reducciones(lo tengo resuelto, está en esta carpeta)
+Ejercicio de la guía de reducciones(lo tengo resuelto, está en reducciones)
 
 
 
