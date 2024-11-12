@@ -1,0 +1,41 @@
+Se define el problema 2-Partition de la siguiente manera: Se cuenta con un conjunto de n elementos. Cada uno de
+ellos tiene un valor asociado. Se desea separar los elementos en 2 subconjuntos tal que la suma de los valores de cada
+subconjunto sea igual para ambos.
+2-Partition es un problema NP-Completo. Queremos demostrar nuevamente (pero de otra forma a la vista en clase) que
+Subset Sum es un problema NP-Completo. Demostrar esto, utilizando que 2-Partition es un problema NP-Completo.
+
+Bueno, primero demostremos que Subset Sum pertenece a NP.
+El problema de Subset Sum se puede enunciar como: Dado una lista de n elementos, queremos encontrar un conjunto de k elementos
+el cual posea una cantidad <= V, siendo V el valor maximo esperado al que se quiere llegar.
+
+def verificador_Subset_Sum(solucion, V):
+    contador = 0
+    for elem in solucion:
+        contador += elem
+    return contador <= V
+
+Claramente lineal => es polinomial => Subset Sum pertenece a NP
+
+Ahora debemos hallar una forma de que con una maquina que resuelve Subset Sum podamos resolver el problema de 2-partition...
+(Este está un poquito mas dificil que el resto).
+Mentira, es fácil(considero solo si la suma es par)
+
+Bueno empecemos che, habría que pasarle a la caja negra de Subset Sum un conjunto y un V.
+Como queremos 2 conjuntos, uno de una cantidad B (esta será la variable que representa sum(conjunto_2_partition)) y otro
+de cantidad B.
+En primer lugar B debe ser par, sino no hay solución. Llamaremos una vez a Subset Sum con el arreglo (el conjunto de n elementos de 2-Partition y B / 2).
+De este modo Subset Sum nos devuelve un conjunto S1 y los elementos que no esten en S1 formarán S2
+
+Existe una solución para Subset Sum con V <==> Existe una solucion para 2-Partition de tamaño B/2 cada conjunto S1 y S2 respectivamente
+
+*Demostración de la ida por método *
+
+Tenemos una solucion para V de Subset Sum, es decir, tenemos una solución para V = B/2 usando un arreglo que tiene los mismos
+elementos que en el problema de 2-partition. Por lo tanto, como subset sum nos devuelve un conjunto de una cierta cantidad de elementos
+que suman B/2(V), entonces podemos decir que existe una solución para 2-Partition.
+
+*Demostración de la vuelta por método*
+
+Debemos demostra que si existe una solución para 2-Partition con B entonces existe una solución para Subset Sum para V.
+Dado que tenemos una solución para 2-Partition, entonces tenemos dos conjuntos S1 y S2 que suman B/2. Por lo tanto, si logramos encontrar 1 subconjunto (S1 o S2)
+que suman V, entonces podemos decir que existe una solución para Subset Sum.

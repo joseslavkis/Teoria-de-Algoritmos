@@ -1,0 +1,47 @@
+(★★) Definir los problemas de decisión de Subset Sum y Problema de la Mochila.
+Sabiendo que Subset Sum es NP-Completo, demostrar que el Problema de la Mochila es NP-Completo.
+
+
+Nos piden demostrar que el problema de la mochila es NP-Completo a partir de que Subset Sum es NP-Completo.
+Debemos plantear la reducción polinomial de esta manera: Subset Sum (SS) <=p Problema de la Mochila (PM). 
+Para ello primero debemos demostrar que el problema de la mochila es NP. Existe un verificador que nos diga que dados x elementos,
+estos no se exceden de un peso W y que la suma de sus valores sea mayor o igual a un valor K.
+
+def verificador_mochila(W, elementos):
+    suma = 0
+    for peso, valor in elementos:
+        if peso > W:
+            return False
+    return True
+obviamente polinomial, O(n). Primer punto concretado.
+
+Ahora debemos, a partir de una caja negra que resuelve Subset Sum, demostrar que podemos resolver el problema de la mochila. 
+Veamos un momento las ecuaciones de recurrencia de c/ejercicio:
+Subset Sum:
+opt[n][v] = max(opt[n-1][v], opt[n-1][v-v[i]] + v[i]), donde v es el vector de valores y n la cantidad de elementos a sumar.
+
+Problema de la Mochila:
+opt[n][w] = max(opt[n-1][w], opt[n-1][w-p[i]] + v[i]), donde p es el vector de pesos y v el vector de valores.
+
+Creo que queda clara la similitud entre ambas ecuaciones de recurrencia. Subset Sum es un caso particular del Problema de la Mochila,
+donde los pesos son iguales a los valores!!!
+Ahora debemos demostrar que si existe una solución para Subset Sum, existe una solución para el Problema de la Mochila.
+
+
+Existe una solucion para SS <==> Existe una solucion para PM
+
+*Demostración de la ida por método directo*
+
+Debemos demostrar que si existe una solucion para SUbset Sum, existe una solucion para PM. 
+Dado que los pesos son iguales a los valores, si existe una solucion para Subset Sum, entonces existe una solucion para el Problema de la Mochila.
+Existirá una solucion para el problema de la mochila, en un caso en el que los pesos y los valores sean iguales. Ahí se podrá corroborar la demostración.
+
+*Demostración de la vuelta por método directo*
+
+Debemos demostrar que si existe una solucion para PM, existe una solucion para SS. 
+Como existe una solucion para el problema de la mochila en el que los pesos son iguales a los valores, entonces claramente existirá 
+una solucion para Subset Sum. Lo podemos ver claramente en la ecuación de recurrencia, donde los pesos y los valores son iguales.
+Así se comprueba que Subset Sum no es mas que una version de PM la cual tiene pesos y valores idénticos. 
+
+De esta forma, hemos demostrado que el Problema de la Mochila es NP-Completo (ya que SS es NP-Completo).
+

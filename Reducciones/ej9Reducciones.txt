@@ -1,0 +1,42 @@
+(★★) Definir los problemas de decisión de Grafo Bipartito y 3-Coloreo. Sabiendo que 3-Coloreo es NP-Completo, reducir Grafo Bipartito a 3-Coloreo.
+¿Podemos afirmar que Grafo Bipartito es un problema NP-Completo?
+
+Debemos ver como podemos reducir Grafo Bipartito a 3-Coloreo.
+Para ello, debemos demostrar que existe una reducción polinomial de Grafo Bipartito a 3-Coloreo tal que Bipartito <=p 3-Coloreo. 
+Si dejamos el mismo grafo nos vamos a chocar contra una pared, porque la maquina resolvedora (caja negra) de 3-Coloreo
+nos va a resolver 3-Coloreo. Entonces esto nos da una pauta de que debemos modificar el grafo de alguna manera para que al ingresar este grafo G'
+en la maquina resolvedora de 3-Coloreo, nos devuelva un resultado que nos permita resolver Grafo Bipartito.
+Supongamos que tenemos un grafo bipartito G = (V, E), si resolvemos el problema de grafo bipartito, podemos dividir los vértices en dos conjuntos.
+Por otro lado, 3-Coloreo nos devuelve 3 conjuntos de colores. ¿Y si logramos armar un tercer conjunto en G' que no interfiera en el armado del 2-Coloreo?
+Me explico, si logramos que los vértices de G' se puedan colorear con 3 colores, entonces podremos afirmar que G es bipartito.
+
+Como conseguimos este G' mágico?
+
+Debemos agregar un vértice auxiliar a una copia de G (G') que se una a todos los vértices de G.
+De esta forma, el algoritmo de 3-Coloreo se verá obligado a pintar a todos los vertices con únicamente 2 colores,
+ya que el vértice auxiliar se unirá a todos los vértices.
+
+Ahora demostremos que la reducción existe:
+
+Existe un 2-coloreo en G <==> Existe un 3-coloreo en G'
+
+*Demostración de la ida por método directo*
+
+Partimos de la premisa de que existe un 2-Coloreo(grafo bipartito) en G y debemos llegar a que existe un 3-Coloreo en G'. 
+Dado que G es bipartito, estamos seguros de que los vertices de G se pueden dividir en 2 conjuntos disjuntos, y ninguno se puede conectar entre sí. 
+Si agregamos un vértice v, el cual se conecta a todos los vértices de G, adyacentes(v) = len(G') - 1.
+Como el vertice v no puede tener el mismo color que uno de sus adyacentes,
+el algoritmo de 3-Coloreo se verá obligado a pintar a v con un color distinto a los de G. El cual sabemos que es válido, ya que en la componente de G'
+que representa a G ya existía un 2-Coloreo. De esta forma, se concluye que si existe un 2-Coloreo en G, existe un 3-Coloreo en G'.  
+
+*Demostración de la vuelta por método directo*
+
+Ahora partimos que desde 3-Coloreo en G' se puede llegar a un 2-Coloreo en G. Esto es analogo al caso anterior, bastaría con ver que el vértice extra
+que posee G' es parte de un conjunto ÚNICO, y que no se puede conectar con los vértices de G. De esta forma, el algoritmo de 3-Coloreo pintará los demás
+con los únicos 2 colores que le queda (osea la componente que representa a G será pintada como un grafo bipartito),
+y el vértice extra con otro color. De esta forma, se concluye que si existe un 3-Coloreo en G', existe un 2-Coloreo en G.
+
+No se puede demostrar que grafo bipartito es NP-Completo, ya que la reducción de 3-Coloreo a Grafo Bipartito no se ha demostrado.
+Solo hemos demostrado la inversa.
+Esto no nos dice nada, ya que por definición un problema x (que se resuelve en tiempo polinomial) es <=p que un problema NP-Completo.
+Además, obvio que grafo bipartito no es NP-Completo, es un bfs...(O(V+E)), ¿¿¿¿o quizás todo este tiempo era NP-Completo y en realidad P=NP????.

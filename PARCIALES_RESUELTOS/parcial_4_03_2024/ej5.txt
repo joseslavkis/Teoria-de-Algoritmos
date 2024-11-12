@@ -1,0 +1,47 @@
+Indicar si las siguientes afirmaciones sobre Redes de Flujo son verdaderas o falsas, justificando detalladamente.
+a. Si aumentamos la capacidad de todas las aristas por una constante K, implicará que el flujo máximo aumente en
+[K × min (grado_salida[fuente], grado_entrada[sumidero])] unidades.
+b. En el caso del flujo máximo de la red, aumentarle la capacidad a una arista cuya capacidad no fue consumida no
+tienen ningún efecto sobre el flujo máximo.
+c. Eliminar una arista al azar del grafo puede no afectar el flujo máximo, pero si eliminamos una arista que es parte
+del corte mínimo, entonces obligatoriamente sí afectará al flujo máximo.
+
+
+a. Falso, no necesariamente. Podría suceder que gracias al flujo que se aumentó en otra arista ahora se puede obtener el flujo de otra "region"
+y que el flujo de estas aristas de entrada y salida mínimas se vean afectadas.(aquí habría que poner un contraejemplo). Depende mas que nada
+del corte mínimo. Si esas aristas pertenecen al corte mínimo esto será verdadero.
+La razón es que el flujo máximo está limitado por el corte mínimo de la red.
+Aunque aumentar la capacidad de cada arista podría crear más capacidad potencial en el grafo,
+el flujo máximo solo puede incrementarse si el corte mínimo permite mayor flujo.
+
+
+b. Verdadero. Si en la red residual, esa arista no consumió toda su capacidad significa que el flujo se desvió y no necesitó pasar por esa arista.
+Por mas que yo le aumente la capacidad a esa arista, el flujo es capaz de pasar por algun otro lado evitando esta arista que no requiere toda su capacidad.
+Si se logra alcanzar un flujo maxima dejalo a esta arista con capacidad restante = 1, será lo mismo que yo le aumente en un millón su capacidad,
+ya que deben haber otras aristas anteriores que condicionan a que por esa arista no pase el flujo = capacidad de la arista.
+Por lo tanto,
+incrementar la capacidad de una arista que no está completamente utilizada no cambia el flujo máximo, ya que no es un cuello de botella en la red.
+
+
+
+c. Verdadero. Las aristas pertenecientes al corte mínimo son las cuales poseen un camino directo a uno de las 2 componentes (Fuente o sumidero).
+Si se elimina una de estas, necesariamente el direccionamiento del flujo cambiará porque son las aristas que necesariamente se utilizan para 
+conectar a estas 2 componentes (ademas de que su capacidad restante es 0). 
+Al verse obligado a redireccionar flujo, el algoritmo se verá obligado a recorrer otro camino que no habia decidido tomar ya que 
+el de la arista que estamos eliminando resultaba más conveniente.
+
+Si eliminamos una arista que pertenece al corte mínimo, reducimos la capacidad total de ese corte.
+Como el flujo máximo está limitado por la capacidad del corte mínimo, eliminar una arista en ese corte necesariamente disminuye el flujo máximo.
+Esto es porque el corte mínimo representa la cantidad máxima de flujo que puede pasar de la fuente al sumidero sin violar las capacidades de las aristas.
+Al eliminar una arista del corte mínimo, estamos eliminando una ruta crítica para el flujo,
+y como resultado, se reducirá la capacidad del corte mínimo, disminuyendo el flujo máximo de la red.
+
+
+
+
+INFO IMPORTANTE:
+El teorema de flujo máximo y corte mínimo establece que, en una red de flujo, el valor del flujo máximo de la fuente al sumidero es igual a la capacidad del corte mínimo.
+Esto significa que el corte mínimo "limita" el valor del flujo máximo. Si aumentamos la capacidad de las aristas en el corte mínimo,
+el flujo máximo también puede aumentar, pero si no afectamos el corte mínimo, el flujo máximo no cambiará.
+
+

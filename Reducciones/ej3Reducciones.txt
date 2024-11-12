@@ -1,0 +1,22 @@
+
+(★★) Dados los problemas de decisiones de Independent Set y Vertex Cover, realizar dos reducciones.
+a. Reducir Independent Set a Vertex Cover.
+b. Reducir Vertex Cover a Independent Set.
+
+Sabemos que Independent Set es un conjunto de tamaño k perteneciente a un grafo. Este tiene la característica
+que para todo par de vértices pertenecientes a IS, estos no serán adyacentes entre sí.
+Por otro lado, Vertex Cover tiene la característica de conformar un subset de vertices tal que en el grafo original
+no existe arista la cual no contenga en sus extremos a alguno de estos vértices.
+
+Una relación clave entre estos problemas es que si tenemos un Independent Set (IS) de tamaño k,
+entonces los vértices que no pertenecen a este conjunto forman un Vertex Cover (VC) de tamaño ∣V∣−k.
+Esta observación es crucial para las reducciones.
+
+a.
+Queremos demostrar que si podemos resolver Vertex Cover, entonces podemos resolver Independent Set.
+Imaginen que precisamos un IS de tamaño K.
+Le diremos a la "maquina que resuelve VC" si existe un VC de tamaño |V|-k. En caso de que exista, nos podemos asegurar que existe 
+un IS de tamaño k. Estos serán justamente los vertices que no pertenezcan a VC(algo como {V} - {VC})
+
+b.
+Literalmente lo mismo, solo que esta vez IS será de tamaño |V|-k y el VC de tamaño k

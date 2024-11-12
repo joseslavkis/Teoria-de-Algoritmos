@@ -1,0 +1,33 @@
+Un algoritmo sencillo para multiplicar matrices de n × n demora O(n^3). El algoritmo de Strassen (que utiliza División y Conquista)
+lo hace en O(n^(log2 7)). 
+La profesora Manterola quiere implementar un algoritmo de División y Conquista que sea aún más veloz, 
+donde divida al problema en A subproblemas de tamaño de n/8, y que juntar las soluciones parciales sea O(n^2). 
+¿Cuál es el máximo A para que el orden del algoritmo sea menor que el del algoritmo de Strassen? Justificar.
+
+
+Parece una falopeada el ejercicio pero les prometo que es fácil usando el teorema maestro, ya que estamos traigamoslo a colación:
+
+Sea T(n) = A * T(n/B) + O(n^C), donde:
+
+
+1. **Caso 1:** Si C < log_B(A), entonces T(n) = Θ(n^(log_B(A))).
+
+2. **Caso 2:** Si C = log_B(A), entonces T(n) = Θ(n^C * log(n)).
+
+3. **Caso 3:** Si C > log_B(A), y si A * O(n^(C)) ≤ k * O(n^C) para algún k < 1 y suficientemente grande n, entonces T(n) = Θ(n^C).
+
+En este caso, tenemos que A es desconocido, B = 8 y C = 2.
+
+En primer lugar planteemos la ecuación de recurrencia de manterola: T(n) = A * T(n/8) + O(n^2)
+Vamos a demostrarlo:
+El A tal que el algoritmo de Manterola sea peor que el de Strassen se calcula asi:
+O(n^(logb a)) < O(n^(log2 7))
+
+Como queremos que el algoritmo de Manterola sea mejor que el de Strassen que es O(n^(log2 7)) = O(n^2.80735) entonces tenemos que usar 
+el primer caso, ya que como C = 2 y B = 8 entonces log8 A < log2 7, entonces tenemos que log8 A < 2.80735, entonces:
+O(n^(log8 A)) < O(n^2.80735), así tenemos que log8 A < 2.80735.
+=> A < 8^2.80735 => a < 342. Entonces el máximo de A es 341.
+
+
+
+Es una falopeada y puede ser que esté mal pero hice lo que pude.

@@ -1,0 +1,80 @@
+Coty cumplió años ayer y está organizando su festejo. En dicho festejo, va a dar unos regalos. Son regalos geniales,
+que van a dar que hablar luego del festejo. Eso es justamente lo que desea ella: que todos aquellos invitados que se
+conozcan entre sí, luego de terminado el evento hablen del regalo que recibió uno, o bien el otro. ¿El problema? Coty
+está invitando a n personas, pero no tiene presupuesto para comprar n regalos, sino tan sólo k.
+El problema del cumpleaños de Coty puede enunciarse como: Dada la lista de n invitados al cumpleaños de Coty, un
+número k, y conociendo quién se conocen con quién (ej: una lista con los pares de conocidos), ¿existe una forma de
+asignar a lo sumo k personas para dar los regalos, de tal forma que todos los invitados, al hablar luego con quienes se
+conozcan, puedan hablar del regalo que obtuvo uno o bien el otro?
+Demostrar que el problema del cumpleaños de Coty es un problema NP-Completo.
+
+Comentarios:
+
+-ESTE EJERCICIO SE PODÍA REDUCIR A VERTEX COVER (resolución en la página de la cátedra en la guía de ejercicios de reducciones)
+
+-ESTE EJERCICIO EN REALIDAD SE DEBERÍA PLANTEAR CON UNA CANTIDAD <= K, NO IGUAL A K (no cambia nada pero es lo estrictamente correcto)
+
+A que problema NP-Completo se reduce el problema del cumpleaños de Coty? Un numero k de regalos que deben dominar un conjunto n...
+Si no te das cuenta todavía sos medio bobi o no practicaste mucho reducciones. 
+Claramente al decir que con k regalos se deben "entrelazar" n personas nos da un indicio. Debemos con un número reducido de regalos k, 
+lograr que todos los invitados conozcan a alguien que posee un regalo o que ellos mismos posean un regalo.
+Esto es claramente un problema de Dominating Set (DS). 
+
+Debemos a partir de un grafo de n vertices,
+encontrar un conjunto de k vertices tal que todos los nodos del grafo sean adyacentes a al menos un vertice del conjunto.
+Pero ojo, no debemos reducir este problema a DS, debemos reducir el problema de DS al Coty Problem(CP).
+Esto es porque CP <=p DS, es decir, el problema de Coty es al menos tan dificil como DS, no nos daría nada de información útil.
+Esto se debe a que en clase se demostró que DS es NP-Completo y obviamente un problema x es a lo sumo tan o menos dificil que un problema NP-Completo.
+Por lo tanto, debemos reducir DS a CP => DS <=p CP.
+
+Primero debemos demostrar que CP pertenece a NP, verificador:
+
+#doy por hecho que recibo un set de regalos donde las claves son a quienes les regalé el regalo, los conocidos es un diccionario
+# que dice a quienes conoce cada persona. Y bueno k es el número que dió la pana Coty.
+
+def CP(regalos, conocidos, k):
+    if len(regalos) > k:
+        return False
+    abarcados = set()
+    for regalo in regalos:
+        abarcados.add(regalo)
+        for conocido in conocidos[regalo]:
+            abarcados.add(conocido)
+    return len(abarcados) == len(conocidos)
+
+Ya queda demostrado que CP pertenece a NP, ahora debemos reducir DS a CP.
+
+Bueno convengamos que el problema es muuuy parecido asiq no debería ser tan dificil.
+En las reducciones, el problema de DS se enuncia como: Dado un grafo G y un número k,
+¿existe un conjunto de k nodos tal que todos los nodos del grafo sean adyacentes a al menos un nodo del conjunto o pertenezan al mismo?
+Entonces lo que podriamos hacer es lo siguiente:
+Preguntarle a la caja negra que resuelve CP si existe solucion para una lista de n elementos(los vértices del grafo), un número k y un diccionario
+de conocidos que serán las aristas del grafo.
+
+Ahora demostramos el si y solo si:
+
+Existe un Dominating Set de tamaño k en G <==> Existe una solución para el problema de Coty de k regalos.
+
+
+*Demostración de la ida por método directo*
+
+Debemos demostrar que si existe un DS de tamaño k en G entonces existe una solucion a CP de tamaño k (k regalos).
+Si existe una solución para dominating set de tamaño k significa que en el grafo G hay una manera de seleccionar k elementos
+de manera tal que cada elemento pertenezca o sea adyacente a alguien que pertenece al conjunto.
+Esto nos da una certeza de que existirá una solución para CP de tamaño k,
+ya que tendremos un número k de regalos que se repartirán entre k personas. Este sería el conjunto de DS si se quiere.
+Como es un DS (lo vamos a extrapolar a CP), no habrá ningun invitado que no tenga un regalo ni que no conozca a alguien que haya recibido un regalo.
+Esto se debe a que sería la definición de DS. Queda demostrada la ida.
+
+*Demostración de la vuelta por método directo*
+
+Debemos demostrar que si existe una solución a CP de tamaño k entonces existe un DS de tamaño k en G.
+Para ello plantearemos que CP puede abarcar a n invitados que tienen interconexiones entre sí de manera que con k regalos es suficiente
+para dominar a todos y cada uno de los n invitados. El problema de CP plantea que si existe solución al mismo, 
+existe un conjunto de invitados, de interconexiones y de regalos k que hagan que con una cantidad k <= n de regalos baste para que
+ningun invitado se quede sin un regalo o sin conocer a alguien que tenga un regalo. 
+Si existe solución para esto, quiere decir que existe un conjunto de n invitados (los vértices de G), un número k y un diccionario de conexiones entre
+los invitados (aristas de G) tal que todos los invitados (vértices de G) esten dominados por los k regalos repartidos (¡¡¡ EL DS !!!).
+Así es como queda demostrada la vuelta.
+
+Conclusión, CP es un problema NP-Completo.

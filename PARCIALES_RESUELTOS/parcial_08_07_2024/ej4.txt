@@ -1,0 +1,55 @@
+El problema de Subgrafo Isomórfico es el siguiente: Dado un grafo G1 y otro grafo G2, ¿existe un subgrafo de G1 que
+sea isomorfo a G2? En el ejemplo del dorso, G2 es isomorfo al subgrafo de G1 que contiene a v0, v1, v2; G3 es isomorfo
+al subgrafo de G1 que contiene a v1, v2, v3; mientras que G4 no es isomorfo a ningún subgrafo de G1.
+Demostrar que el problema de Subgrafo Isomórfico es un problema NP-Completo. Recomendación: Recordar que el
+problema de K-Clique es un problema NP-Completo.
+
+El problema de K-Clique es un problema NP-Completo, y a partir de él, debemos plantear la reducción de K-Clique a Subgrafo Isomórfico
+(K-Clique <=p Subgrafo Isomórfico).
+El problema de Subgrafo Isomórfico plantea que dado un grafo G1 y otro grafo G2, ¿existe un subgrafo de G1 que sea isomorfo a G2?
+Que un subgrafo sea isomorfo a G2 significa que los vértices de G2 se encuentran en G1 y que las aristas de G2 se encuentran en G1.
+Por otro lado, el problema de K-Clique dice: dado un grafo G y un número k, ¿existe un subgrafo de G que sea un clique de tamaño k?
+
+Primero demostremos que Subgrafo Isomórfico pertenece a NP. Dado un subgrafo de G1, podemos verificar si es isomorfo a G2 en tiempo polinomial:
+
+def verificar_isomorfismo_subgrafo(G1, G2, mapeo):
+    imagen_vertices = set(mapeo.values())
+    if len(imagen_vertices) != len(G2.vertices):
+        return False
+    for v in G2.vertices:
+        for w in G2.adyacentes(v):
+            if not G.estan_unidos(mapeo[v], mapeo[w]):
+                return False
+    return True
+
+Claramente esto es polinomial en la cantidad de vértices y aristas de G1 y G2.
+
+Imaginemos que tenemos una caja negra que resuelve Subgrafo isomórfico. Debemos ver como resolver K-Clique es simplemente
+aplicar esta caja negra, pero para ello debemos acomodar un poco los parámetros.
+Subgrafo Isomórfico recibe un G1 y un grafo G2, esta caja negra busca en G1 si existe un subgrafo isomorfo a G2.
+Por otro lado, K-Clique quiere a partir de un grafo G1 encontrar un clique (que muy sospechosamente llamaremos G2) de tamaño k.
+
+Bueno creo que ya te estarás dando cuenta de la reducción, simplemente para resolver el K-Clique le mandamos
+a la caja negra de Subgrafo Isomórfico el grafo G1 y el grafo G2.
+Pero este G2 va a ser un clique de tamaño k, y si la caja negra nos dice que existe un subgrafo isomorfo a G2, entonces existe un 
+clique en G1 de tamaño k.
+
+Ahora demostremos el si y solo si:
+
+Existe un clique de tamaño k en G1 => Existe un subgrafo isomorfo a G2(G2 siendo un clique de tamaño k) en G1
+
+*Demostración de la ida por método directo*
+
+Si existe un clique de tamaño k en G1, entonces existe un subgrafo isomorfo a G2 en G1. 
+El hecho de que exista un clique de tamaño k en G1, nos da la pauta de que existe un subgrafo G2 que es un subgrafo completo.
+Esto se debe a que definimos a G2 como un subgrafo completo de tamaño k. Como existe un clique de tamaño k (que actua como un subgrafo completo),
+entonces existe un subgrafo isomorfo a G2 (subgrafo completo) en G1.
+
+*Demostración de la vuelta por método directo*
+
+Si existe un subgrafo isomorfo a G2 (subgrafo completo de tamaño k) en G1, entonces existe un clique de tamaño k en G1. 
+Tenemos un grafo G1 que nos dice: ¡Tengo una componente completa de tamaño k!. Si es cierto que en G1 existe una componente completa
+de tamaño k, la cual se llama G2, entonces existe un clique de tamaño k en G1. Ya que una componente completa es un clique.
+
+
+Entonces hemos demostrado que el problema de Subgrafo Isomórfico es NP-Completo, ya que hemos reducido K-Clique a Subgrafo Isomórfico.

@@ -1,0 +1,67 @@
+1. El Hitting Set Problem es: Dado un conjunto de elemento A de n elementos, m subconjuntos B1, B2, ..., Bm de A
+(Bi ⊆ A∀i), y un número k, ¿existe un subconjunto C ⊆ A con |C| ≤ k tal que C tenga al menos un elemento de cada
+Bi (es decir, C ∩ Bi != ∅)?
+Dominating Set es un problema NP-Completo. Demostrar que Hitting Set Problem es un problema NP-Completo,
+utilizando Dominating-Set para esto.
+
+PD: se me ocurre una reduccion muy buena con Vertex Cover que es que los B_i sean las aristas y los vértices del grafo
+sean A (no lo pide el ejercicio pero está bueno mencionarlo)
+
+
+Ejemplo de este Hitting Set Problem (HS):
+A = {x_1, x_2, x_3, x_4, x_5}, k = 3
+
+B_1 = {x_1}
+B_2 = {x_2, x_4}
+B_3 = {x_1}, nunca dice que los B_i no se puedan repetir
+
+C = {x_1, x_2, x_4}
+
+Primero debemos demostrar que HS pertenece a NP, verificador polinomial:
+
+#Ponele que B's es una lista de sets(que serían los B_i), y que C es un set
+def veriticador_HS(B's, C, k):
+    if C > k: return False
+    for B_i in B's:
+        for componente_de_B_i in B_i:
+            if componente_de_B_i not in C:
+                return False
+    return True
+claramente polinomial, O(B*k) siendo B la cantidad de conjuntos B y k la cantidad máxima de elementos que tiene un conjunto B_i(estará acotado por len(A)),
+entonces -> O(B*len(A)). Porque a lo sumo B_i será tan largo como A.
+
+
+Debemos encontrar, a traves de una caja negra que resuelve HS, una solución para DS(el enunciado del problema de Dominating
+Set (DS) a esta altura sino lo sabes sos un poco zapallo amigo).
+Debemos adaptar los vértices tal que obtengamos un conjunto A y conjuntos B_i de un grafo. Además este debe resolver DS.
+En primer lugar se me ocurre que A sean todos los vértices del grafo G al cual le queremos hallar el DS. 
+Ahora la parte mas dificil del problema, ¿qué son los B's?. 
+El problema de DS se basa en dominar vértices adyacentes y los B's de HS son dominados por alguna componente de C...(te la dejé picando, rematala).
+Basicamente la solución que propongo es que por cada vértice tener un B_vi que estará formado por los adyacentes de vi. 
+De esta manera nos aseguramos que cada vértice v pertenecerá a la solución C (que será el DS) o será adyacente a alguno perteneciente a C.
+
+Bueno ahora demostremos el si y solo si:
+
+Existe un DS para G <= k <==> Existe un HS de tamaño <=k para A y B_v
+
+*Demostración de la ida por método directo*
+
+Debemos demostrar que si existe un DS para G <= k entonces existe un HS de tamaño <=k para A y B_v.
+Si existe un DS en G sabemos que para todo vértice, este es adyacente a un vértice que pertenece al DS o pertenece al DS.
+Si existe solución para este problema, en el que cada conjunto formado por los grados (nombrados como los vértices de cada vértice v) 
+estará cubierto por alguna componente del DS. Esta resolución es análoga al problema de HS. Ya que DS tiene solución <= k, entonces HS también la tiene.
+La única diferencia es la nomenclatura de las cosas, en nuestro problema de HS los B_v serán los adyacentes del vértice v, el cual será
+dominado por alguna componentente de C (ya que por definición de HS, C posee al menos una componente de cada B_i).
+Esto se dará para cada vértice, por lo tanto queda demostrada la ida.
+
+*Demostración de la vuelta por método directo*
+
+Debemos demostrar que si existe un HS de tamaño <=k para A y B_v entonces existe un DS para G <= k.
+Si existe un HS de A que posee los mismos elementos que los vértices de G y los B_v son los adyacentes de cada vértice v, entonces sabemos
+que el conjunto C contendrá por lo menos un elemento de cada B_v. Por lo tanto, cada vértice v será dominado por algún vértice de C.
+Haciendo la reducción, esto significa que C representa el DS de G. 
+Por lo tanto, si existe un HS de tamaño <=k para A y B_v entonces existe un DS para G <= k.
+Queda demostrada la vuelta.
+
+
+Por lo tanto, queda demostrado que HS es NP-Completo, porque pudimos reducir un problema NP-Completo a HS y ademas demostramos que pertenece a NP.

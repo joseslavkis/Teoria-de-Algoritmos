@@ -1,0 +1,68 @@
+Un director de teatro tiene un elenco de n actores para realizar sus obras (todos los actores se encuentran capacitados
+para ello). Para cada obra necesita diferente cantidad de actores. Para evitar problemas en el elenco, decide que nunca
+repetirá para una obra 2 actores que ya hayan participado juntos en una obra previa. El problema de los actores dice:
+“Dado un conjunto de n actores y la información de en cuáles obras actuaron, ¿existe forma de seleccionar k de ellos
+para hacer la siguiente obra, sin que existan dos de ellos que hayan compartido elenco previamente?”.
+Demostrar que el problema de los actores es un problema NP-Completo.
+
+
+Bueno, a partir de algun problema del cual se sepa su estado de NP-Completo, se puede reducir a este problema.
+Primero debemos demostrar que el problema de los actores (PA) pertenece a NP.
+
+Supongamos que la función verificadora recibe un diccionario con los actores seleccionados, 
+y un diccionario donde la clave sea el nombre del actor y el valor sea una lista con los actores con los que ya participó.
+
+def verificador_PA(actores_seleccionados, colaboraciones):
+    for i in range(len(actores_seleccionados)):
+        for j in range(len(actores_seleccionados)):
+            if i == j:
+                continue
+            if actores_seleccionados[i] in colaboraciones[actores_seleccionados[j]]:
+                return False
+    return True
+
+El problema pertenece a NP, es cuadrático.
+
+Bueno como es costumbre, esto seguramente lo vayamos a transformar en un grafo. tenemos información de en que obras actuó cada actor, 
+por lo tanto podemos saber que conjunto de personas no pueden ser seleccionadas entre sí.
+Me explico. Si 45 actores estuvieron en la famosa obra de teatro "TDA con Buchi y Eze", estas 45 personas no podrán ser seleccionadas simultaneamente.
+Solo 1 de las 45 podrá ser elegida. De este modo vamos a ir armando el grafo, en el que los vértices son los actores y las aristas respresentan
+si esos 2 actores colaboraron en un pasado.
+Un conjunto de vértices que no pueden colaborar entre sí..., ¿osea que no pueden compartir aristas entre sí los vértices seleccionados?
+¿Entonces ningun actor seleccionado podrá ser adyacente a otro actor seleccionado? (Acá es donde se te tiene que prender el foco pana)
+Haremos una reducción de IS a PA, de manera tal que IS <=p PA.
+
+Tenemos una caja negra que resuelve PA y nosotros queremos resolver IS. Para ello debemos adaptar nuestro grafo G a un formato de lista.
+En este grafo G, la caja negra interpretará los vértices como el conjunto de n actores y las aristas como el hecho de si compartieron o no obra.
+Así es como obtendremos un conjunto k que no comparte arista y es de tamaño k.
+
+
+Ahora demostremos el si y solo si:
+
+Existe un grafo G con IS de tamaño k <==> Existe un conjunto de k actores que cumplan que nunca hayan colaborado entre sí.
+
+*Demostración de la ida por método directo*
+
+Debemos demostrar que si existe un conjunto de k actores que nunca colaboraron entre sí,
+entonces existe un conjunto de k actores que nunca colaboraron entre sí. Si tenemos un grafo G con un conjunto de vértices V y un conjunto de aristas E,
+y tenemos un IS de tamaño k el cual ninguno es adyacente a ningún otro vértice del conjunto. 
+A partir de esto podemos garantizar de que si se puede asegurar esto, existirá un conjunto de k actores que nunca colaboraron entre sí.
+Esto se debe a que los vértices del IS serían los actores seleccionados, los cuales al no compartir aristas entre sí, no colaboraron entre sí.
+Queda demostrada la ida.
+
+*Demostración de la vuelta por método directo*
+
+Debemos demostrar que si existe un conjunto de k actores que nunca colaboraron entre sí,
+entonces existe un conjunto de k que representa un IS en el grafo G. Dado que el grafo G lo planteamos de modo tal que represente a los actores 
+y sus colaboraciones. El problema de PA nos dice que si encuentra un conjunto de k actores, estos nunca colaboraron entre sí anteriormente.
+Por lo tanto si existe solución a este problema, significa que en el grafo G este conjunto de actores (que en G son vértices) no comparten aristas entre sí.
+Dado que sabemos como seleccionar los actores de modo tal que en el grafo G no posean adyacencias, podemos asegurar que si existe
+una soluciçon de tamaño k para PA => existe una solución de tamaño k para IS.
+Queda demostrada la vuelta.
+
+Así es como demostramos que el problema de los actores es NP-Completo.
+
+
+
+
+

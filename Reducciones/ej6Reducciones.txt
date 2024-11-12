@@ -1,0 +1,35 @@
+(★★) Definir el problema de decisión de las N-Reinas.
+Usar que N-Reinas es un problema NP-Completo para demostrar que Demostrar que Independent Set(IS) es un problema NP-Completo.
+
+
+-------------------------------------------------------------------------------------------------------------------------
+
+Dado el enunciado sabemos que N-Reinas es un problema NP-Completo, a partir de este dato debemos poder reducir el problema las N-Reinas
+a IS, demostrando así que IS es un problema NP-Completo.
+Primero que nada, debemos demostrar que IS pertenece a NP(ver ejercicio 1).
+
+Ahora que ya está demostrado que IS pertenece al grupo de los problemas NP, debemos demostrar que N-Reinas <=p IS.
+Habría que hallar una forma de que con una maquinada resolvedora de IS, podamos darle un grafo que reprtesente al tablero de las N-Reinas,
+y así solucionar el problema de las N-Reinas. Exactamente esto haremos.
+
+Modelación del grafo:
+1. Los vertices serán los casilleros del tablero
+2. Añadimos una arista entre dos vértices si colocar reinas en esos dos casilleros causaría que se ataquen:
+-Dos casilleros que están en la misma fila.
+-Dos casilleros que están en la misma columna.
+-Dos casilleros que están en la misma diagonal (ascendente o descendente).
+
+ACLARACION: LA IDA Y LA VUELTA SON MEJORABLES(ESTA MEJOR HECHA EN EJERCICIOS DE PARCIALES Y POSTERIORES)
+
+Debemos mostrar 2 cosas:
+
+*Si hay un solucionador de IS hay un solucionador N-Reinas*
+Simplemente ingresar en el solucionador de IS el grafo con las características mencionadas anteriormente.
+El IS resultante serán las posiciones donde se pueden colocar las k reinas
+
+
+*Si hay un solucionador de N-Reinas hay un solucionador IS*
+
+Dado que el conjunto de casillas ocupadas por las reinas es un conjunto independiente en el grafo,
+podemos tomar estas casillas como una solución para el problema IS.
+Es decir, si podemos resolver N-Reinas, podemos encontrar un conjunto independiente en el grafo correspondiente.

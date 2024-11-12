@@ -1,0 +1,49 @@
+(★★) Definir los problemas de decisión de Camino Hamiltoniano y Ciclo Hamiltoniano.
+Sabiendo que Ciclo Hamiltoniano es NP-Completo, demostrar que Camino Hamiltoniano es NP-Completo.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+El problema nos pide que logremos demostrar a partir de esto: "Sabiendo que Ciclo Hamiltoniano es NP-Completo" que Camino Hamiltoniano es NP-Completo.
+Para ello debemos:
+1.Demostrar que camino Hamiltoniano es NP
+2.Demostrar que la reduccion Ciclo Hamiltoniano <=p Camino Hamiltoniano
+
+Demostrar que camino Hamiltoniano es NP sería algo sencillo, basta con demostrar que su verificador es polinomial.
+
+def verificador_camino_hamiltoniano(grafo, camino):
+    if len(camino) != len(grafo):
+        return False
+    visitados = set()
+    for i in range(len(camino)-1): O(V)
+        if camino[i] in visitados:
+            return False
+        if not grafo.estan_unidos(camino[i], camino[i+1]): O(1)
+            return False
+        visitados.add(camino[i])
+    return True
+
+La complejidad es O(V), claramente esto es polinomial. Primer punto concretado.
+Ahora debemos demostrar que dada una máquina que resuelve el problema de Camino Hamiltoniano, podemos resolver el problema de Ciclo Hamiltoniano.
+Nosotros debemos demostrar lo siguiente:
+Existe un ciclo Hamiltoniano en G <==> Existe un camino Hamiltoniano en G'
+
+Estos 2 problemas tienen una similitud pero a la vez una diferencia muy importante. Dado un grafo G de n vérticescon ciclo y camino Hamiltoniano existentes,
+el ciclo posee n+1 mientras que el camino posee n vértices. Debemos buscar una forma de que dado un ciclo Hamiltoniano, podamos encontrar un camino Hamiltoniano.
+Una forma es plantear que G' sea exactamente G pero con una particularidad, partir un vértice en dos.
+De esta forma, el ciclo Hamiltoniano se convertirá en un camino Hamiltoniano. Si por ejemplo el vértice a partir es B y existen las aristas(A,B), (B,C)  y (A,C),
+la partición se deberá llevar a cabo de la siguiente forma(dividiendo B en B' y B''):
+Ahora las aristas serán (A,B'), (B'',C) y (C, A). De esta forma, el ciclo Hamiltoniano se convertirá en un camino Hamiltoniano.
+
+*Demostracion de la ida por método directo*
+Dado que ciclo Hamiltoniano siempre requerirá recorrer un vértice más que camino Hamiltoniano, si existe un ciclo Hamiltoniano en G, existirá un camino Hamiltoniano en G'.
+Esto se debe a que el ciclo Hamiltoniano se convertirá en un camino Hamiltoniano al partir un vértice en dos. B'' pasará a ser el vértice inicio del camino
+Hamiltoniano y B' el vértice final. De este modo se concluye que, si existe un ciclo Hamiltoniano en G, existirá un camino Hamiltoniano en G'.
+
+*Demostración de la vuelta por método directo*
+Debemos demostrar que si existe un camino Hamiltoniano en G', existirá un ciclo Hamiltoniano en G. Dado que G' es exactamente G pero con un vértice particionado, 
+y sabemos de ante mano que B' y B'' no estarán conectados, el camino Hamiltoniano en G' será exactamente el ciclo Hamiltoniano en G. Esto se debe a que
+no hay forma de que se generen ciclos en G', sin embargo, si al recibir el camino Hamiltoniano de G' el cual tendrá n+1 elementos(sospechosamente la misma cantidad
+que necesita el ciclo Hamiltoniano de G), este será el ciclo Hamiltoniano de G. 
+Es importante mencionar que el camino Hamiltoniano en G′ efectivamente forma un ciclo en G al unir los extremos B' y B'.
+De esta manera, puedes asegurar que el camino "regresa" al vértice inicial.
+
+De esta manera, queda demostrado que el problema de camino Hamiltoniano es NP-Completo.

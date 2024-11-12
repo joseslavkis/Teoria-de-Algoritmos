@@ -1,0 +1,50 @@
+(★★) Se tiene una matriz donde en cada celda hay submarinos, o no, y se quiere poner faros para iluminarlos a todos.
+El problema es dar la cantidad mínima de faros que se necesitan para que todos los submarinos queden iluminados,
+siendo que cada faro ilumina su celda y además todas las adyacentes (incluyendo las diagonales), y las directamente adyacentes a estas
+(es decir, un “radio de 2 celdas”).
+¿Se encuentra este problema en NP? ¿Qué problema NP-Completo visto en la cursada es parecido al problema definido?
+Definir en ambos casos el problema de decisión.
+¿qué reducción podríamos hacer? ¿Podemos concluir que este problema es un problema NP-Completo?
+
+**¿Se encuentra este problema en NP?
+
+Si, no voy a codear el algoritmo porque es una matriz y no tengo ganas pero si lo queres hacer facil podes un conteo de todos los submarinos y sus celdas.
+Luego recorres todos los faros y vas "tachando" los submarinos cubiertos. Si todos los submarinos estan cubiertos, return True else return False.
+Es polinomial esto => El problema de los submarinos pertenece a NP.
+
+**¿Qué problema NP-Completo visto en la cursada es parecido al problema definido?
+
+Es similar al de dominating set, ya que este se basa en dominar submarinos con faros. Por otro lado el de dominating set se basa
+en dominar vertices con otros vertices.
+
+**Definir en ambos casos el problema de decisión.
+
+-Dominating Set: Dado un grafo G y un número k,
+¿existe un conjunto S con cantidad de vértices <= k tal que cada vértice de G es adyacente a al menos un vértice de S o pertenece a S?
+
+-Submarinos: Dada una matriz M y un número k, ¿es posible iluminar todos los submarinos de un tablero con una cantidad de faros <= k, sabiendo que
+cada faro ilumina un radio de 2 celdas?
+
+**¿qué reducción podríamos hacer?
+
+Dado que en la siguiente pregunta nos preguntan si submarinos es NP-Completo, hagamos la reducción de Dominating Set a Submarinos.
+A no ser que..., NO SE PUEDA HACER ESA REDUCCIÓN. El problema de submarinos nos dice que el radio de los faros es de 2 celdas (este es un valor fijo).
+La naturaleza estática del ejercicio de los submarinos nos impiden extrapolar el ejercicio a un Dominating Set.
+
+De este modo, debemos plantear la reducción opuesta: Submarinos <=p Dominating Set.
+
+En primer lugar, para hallar la reducción, debemos hallar la solucion de submarinos a traves de una caja negra que resuelve DS.
+A partir de la matriz que representa la disposición de los submarinos que llamaremos T, crearemos un grafo G.
+Confeccionaremos un grafo G el cual tenga un tamaño igual a la cantidad de submarinos + las celdas adyacentes a ellos.
+Por cada submarino que se encuentre en la matriz, crearemos un vértice en G. Luego, por cada submarino, conectaremos a los vértices adyacentes a él(celdas
+aledañas en un radio de 2).
+
+De esta forma, si existe un conjunto S de vértices en G que domine a todos los vértices,
+entonces existirá un conjunto de faros que iluminen a todos los submarinos.
+
+**¿Podemos concluir que este problema es un problema NP-Completo?
+
+No se puede demostrar que submarinos es NP-Completo, ya que la reducción de Dominating Set a Submarinos no se ha demostrado (ni se puede hacer).
+
+
+

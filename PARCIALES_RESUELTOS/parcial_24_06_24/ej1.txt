@@ -1,0 +1,16 @@
+Juan es ambicioso pero también algo vago. Dispone de varias ofertas de trabajo diarias, pero no quiere trabajar
+tres días seguidos. Se tiene la información de la ganancia del día i (Gi), para cada día. Implementar un modelo de
+programación lineal que maximice el monto a ganar por Juan, sabiendo que no aceptará trabajar tres días seguidos.
+
+
+Dado que en el parcial basta con poner las ecuaciones, no voy a codear el ejercicio. Solo voy a escribir las ecs.
+
+Es juan el vago pero este no quiere trabajar 3 dias seguidos, podriamos tener una variable x_i binaria.
+x_i = 1 si trabaja el dia i, 0 si no trabaja el dia i.
+Pero antes de ello debemos definir la función objetivo, la cual será maximizar la ganancia de juan.
+Esta será -> max sum(G_i * x_i), si el día i no trabaja, x_i = 0, por lo que no se suma nada.
+
+La restricción sería x_i + x_i+1 + x_i+2 <= 2, para todo i.
+Esto es porque si x_i = 1, x_i+1 = 1, x_i+2 = 1, entonces la suma es 3, lo cual no es menor o igual a 2.
+
+Eso sería todo...

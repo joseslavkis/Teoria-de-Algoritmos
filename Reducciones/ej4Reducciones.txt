@@ -1,0 +1,38 @@
+(★★★) El problema de decisión de 3-SAT dice: dadas un número de cláusulas de variables booleanas,
+cada cláusula consta de la operación OR entre 3 términos,
+decidir si existe una configuración de las variables booleanas tal que sea posible cumplir todas las cláusulas.
+El problema de 3-SAT es NP-Completo. Dados los problemas de decisión de Independent Set y 3-SAT,
+demostrar que Independent Set es NP-Completo. Luego explicar de qué manera,
+con el trabajo hecho en la guía hasta este ejercicio, se puede afirmar que Vertex Cover es NP-Completo.
+
+--------------------------------------------------------------------------------------------------------------------------------------
+
+Sabiendo que 3-SAT es NP-Completo, debemos reducir 3-SAT a Independent Set. Ademas debemos demostrar que Independent Set 
+pertenece a NP.
+
+Vayamos por partes, demostrar que el problema de Independent Set pertenece a NP es sencillo. Basta con probar que su verificador
+es polinomial(ver ejercicio 1 de reducciones).
+
+Luego, debemos demostrar que 3-SAT <=p Independent Set. 
+
+Tenemos una maquina que resuelve Independent set, hay que hallar una forma que dada una instancia de un grafo
+(que represente un problema de 3-SAT). Dado que tenemos un número k de cláusulas con 3 variables cada uno. 
+Lo podemos representar en un grafo como uno con m componentes "completas", como si fueran triángulos. 
+Como 3-SAT es algo de la forma (x_1 V ¬x_2 V x_3) ∧ (¬x_1 V x_2 V x_3) ∧ (x_1 V x_2 V ¬x_3)
+
+ACLARACION: LA IDA Y LA VUELTA SON MEJORABLES(ESTA MEJOR HECHA EN EJERCICIOS DE PARCIALES Y POSTERIORES)
+
+* Si hay un solucionador de IS hay solucionador de 3-SAT *
+
+En este ejemplo habría que crear primero 3 ciclos de 3 vertices(uno v_1 representando x_1, v_2 representando x_2, etc).
+Luego, conectar los x_i con los ¬x_1, ya que no se pueden dar ambos en simultáneo. Una vez creado este grafo, este se debe
+ingresar en la máquina resolvedora de independent set para un tamaño k, donde k es el número de cláusulas. 
+De esta manera seleccionaremos un vértice de cada cláusula, no habrá mas de un vertice en cada cláusula debido a que todos 
+los vértices de cada cláusula están conectados. Por propiedad de Independent Set, esto no podrá pasar. 
+De esta forma, los elementos pertenecientes al IS serán la solución al 3-SAT.
+
+* Si hay un solucionador de 3-SAT hay solucionador de IS *
+
+Dada una solución a la instancia de 3-SAT, seleccionamos los literales que son verdaderos en la solución.
+Si un literal es verdadero, seleccionamos el vértice correspondiente en el grafo.
+Debido a la construcción, el conjunto de vértices seleccionados será independiente, ya que no habrá aristas entre ellos.

@@ -1,0 +1,47 @@
+Definir los problemas de decisión de Independent Set y K-Clique. Hacer una reducción de Independet Set a K-Clique.
+Dada esta reducción, ¿podemos afirmar que K-Clique es un problema NP-Completo?
+
+Nos están solicitando hacer una reducción polinómica de IS a K-Clique, de manera tal que IS <=p K-Clique.
+Es decir, tenemos una máquina que resuelve el problema de K-Clique y queremos a partir de ella obtener una solución al IS de k elementos de un grafo.
+
+Inciso: Encontrar con un K-Clique dado un grafo G es encontrar un subgrafo de k vértices el cual para todo v_i y v_j
+perteneciente a G, existe arista que los una. (en criollo, todos son adyacentes entre sí)
+
+Observamos similitudes(que en realidad son cosas opuestas). K-Clique nos dice que su resultado debe ser un conjunto
+en el cual todos sus vertices estan conectados entre si. Por otro lado, independent set nos devuelve un conjunto el cual 
+ningun vertice comparte arista con ningun otro elemento del conjunto...
+
+Para lograr esto planteareamos un grafo complemento. Sea un grafo G, complemento(G) tendrá todas las aristas que no posea G y las aristas
+que posea G serán borradas. En términos más matemáticos sería:
+
+"Sea T un grafo el cual vertices(T) = vertices(G), siendo T un grafo len(vertices)-Clique. El grafo complemento de G estará compuesto
+por las aristas resultantes de la resta de los conjuntos aristas(T) - aristas(G)."
+
+*Si y solo si*
+
+Existe un IS de tamaño >= K para G <==> Existe un K-Clique de tamaño >= K para complemento(G)
+
+
+*Demostración por método directo de ida*
+
+Dado un grafo G y un número k, si existe un IS en G, este será un K-Clique en el complemento(G). (aqui deberías poner un mini ejemplo).
+La idea es la siguiente: Todas las conexiones entre los vértices que se dan en G, no se darán en complemento(G). Por lo tanto, al usar el complemento(G)
+se nos será dado como resultado el IS de G
+
+*Demostración por mñetodo directo de vuelta*
+
+Dado un grafo complemento(G) y un número k, si existe un K-Clique de tamaño k en este grafo complemento, existirá un IS en el grafo original que sea de tamaño k.
+Misma idea, todas las conexiones que existen en el grafo complemento no se darán en G, por lo tanto nunca se podría concebir que el K-Clique de complemento(G)
+no sea el mismo que el IS de G. Las conexiones serán exactamente opuestas en c/grafo, por lo tanto, si existe un K-Clique en complemento(G) existirá un IS en G.
+
+Esta hecha la reducción de IS a K-Clique. Para demostrar que K-Clique es NP-Completo deberíamos demostrar que este pertenece a NP.
+
+def verificador_k_clique(grafo, k, clique):
+    if len(clique) != k:
+        return False
+    for v in clique:
+        if len(grafo.adyacentes(v)) != k-1:
+            return False
+    return True
+
+Este verificador es O(V+E) en un caso muy extremo de que el k = len(grafo), claramente polinomial => K-Clique pertenece a NP => K-Clique es NP-Completo 
