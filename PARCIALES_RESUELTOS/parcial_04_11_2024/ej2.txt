@@ -1,0 +1,86 @@
+El problema de Separación en R Cliques (SRC) se enuncia como: Dado un grafo, y un valor entero R, ¿se pueden
+separar todos los vértices del gráfo en a lo sumo R cliques? (cada clique puede tener una cantidad diferente de vértices).
+De una manera más formal, se puede enunciar: ¿existen S1, S1, ..., Sk, subconjuntos disjuntos del conjunto de vértices
+V tal que S
+i Si = V , k ≤ R, y que que cada subgrafo correspondiente a los Si sea un clique (subgrafo completo)?
+Demostrar que el problema de Separación en R Cliques es un problema NP-Completo. Para esto, recomendamos
+recordar que el problema de coloreo es un problema NP-Completo. También, recomendamos recordar cómo fue que
+demostramos en clase que K-Clique es un problema NP-Completo (fue con la ayuda de Independent Set).
+
+El enunciado esta copiado y pegado como el orto, cualquier cosa mirenlo en la pagina de la materia
+
+
+
+Empecemos con la demostracion de que SRC es NP-Completo
+
+El problema de decisión de SRC se enuncia como: ¿Es cierto que dado un grafo G, somos capaces de separar una cantidad 
+de cliques <= R tal que estas sean disjuntas?
+
+El problema de decisión de K-coloreo es: ¿es cierto que dados K colores (o <= K colores), somos capaces de pintar todos los vértices de un grafo G 
+tal que ninguno comparta color con sus adyacentes?
+
+Para demostrar que SRC es NP-Completo, debemos demostrar 2 cosas:
+1. SRC es NP
+2.La reducción K-Coloreo <= SRC es válida.
+
+¿SRC es NP?
+Para ello haremos un verificador para demostrar que se puede verificar en tiempo polinomial si una solución es correcta.
+
+def verificador(grafo, cliques, R):
+    if len(cliques) > R:
+        return False
+    for c in cliques:
+        for v in c:
+            for w in c:
+                if v==w: continue
+                if not grafo.estan_unidos(v,w):
+                    return False
+    visitados = set()
+    for c in cliques:
+        for v in c:
+            if v in visitados:
+                return False
+            visitados.add(v)
+    return True
+
+Claramente polinomial => SRC es NP
+
+Ahora debemos demostrar que K-Coloreo <=p SRC
+
+Podríamos complementar el grafo G para obtener G'. G' posee todas las conexiones que G no tiene y viceversa. Por lo tanto si en el grafo G,
+2 vértices de G se pueden pintar del mismo color, no podrán en G'. Con esta metodología haremos esta transformación, donde a la caja negra 
+resolvedora de SRC le enviaremos un G' y un R (que será igual a K, ya que c/clique podrá ser pintada por un color distinto).
+La transformación de G a G' es polinomial, ya que simplemente debemos agregar las conexiones que faltan.
+
+Planteemos el si y solo si:
+
+Existe solución para K-Coloreo usando colores(<=K) con G <==> Eºxiste solución para SRC usando cliques(<=R = K) con G'
+
+
+*demostración de la ida por método directo*
+
+Debemos demostrar que si existe solución para K-Coloreo de tamaño <=K con G, entonces existe solución para SRC de tamaño <= R con G'.
+G' posee todas las conexiones que G no posee y viceversa.
+(ACA HACETE UN DIBUJITO DE UN GRAFO DE 4 VERTICES DONDE HAY 3 ARISTAS Y TODOS ESTAN CONECTADOS A UN SOLO VERTICE Y 
+DESPUES HACETE LA TRANSFORMACIÓN A G')
+
+Espero que visualmente se aprecie que K-Coloreo colorea del mismo color los vértices que componen su respectiva clique en G'. Si logramos 
+pintar de K colores el grafo, sabemos que existen <= K conjuntos que no se conectan entre sí en G, serán una clique eb G'.
+Por lo tanto si hay <= K conjuntos de colores habrá <= K cliques en G'(K=R)
+Todo esto es posible porque las cliques son disjuntas.
+
+*demostración de la vuelta por método directo*
+
+Debemos demostrar que si existe solución para SRC de tamaño <=R con G', entonces existe solución para K-Coloreo de tamaño <= K con G
+
+Dado que G' es el complemento de G, las aristas serán opuestas. Si existe solución para SRC con G',
+entonces existen <= R cliques que no se conectan entre sí.
+Estas cliques tienen vértices que en G no están conectados, por lo que estos vértices podrán ser pintados con el mismo color.
+Esto se dará para todas las cliques de G'. 
+Entonces para toda clique hallada en G' esta representará en K-Coloreo un conjunto de vértices que se pueden pintar del mismo color.
+
+Si las cliques no fueran disjuntas sería imposible de determinar de que color pinto la clique 1 si clique 1 ∩ clique 2 ≠ ∅.
+
+ASI QUEDA DEMOSTRADO QUE SRC ES UN PROBLEMA NP-COMPLETO.
+
+
